@@ -1,5 +1,5 @@
 """
-_utils.py — Shared utility functions for the Mountainous Terrain Optimisation Pipeline.
+_utils.py  -  Shared utility functions for the Mountainous Terrain Optimisation Pipeline.
 
 Provides:
   - DEM sampling (rasterio-based, with nodata handling)

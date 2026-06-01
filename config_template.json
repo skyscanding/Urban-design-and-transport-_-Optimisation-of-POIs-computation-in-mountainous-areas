@@ -1,5 +1,5 @@
 {
-  "_comment": "Mountainous Terrain Optimisation — Config Template. Copy and customise for your project.",
+  "_comment": "Mountainous Terrain Optimisation  -  Config Template. Copy and customise for your project.",
 
   "output_dir": "./Output",
   "crs": "EPSG:2326",
