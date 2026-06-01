@@ -10,7 +10,7 @@ Approach:
   - Hub: user-specified WGS84 location (e.g. waterfront commercial strip)
   - Distance: 3D Euclidean (straight-line flight) via scipy.spatial.distance.cdist
   - Coverage: residents walk up to coverage_radius m to nearest pad
-  - Optimisation: MCLP via PuLP/CBC  -  maximise population covered by p pads
+  - Optimisation: MCLP via PuLP/CBC: maximise population covered by p pads
 
 Inputs:
   - HK_Buildings.gpkg (with Elevation/height field)

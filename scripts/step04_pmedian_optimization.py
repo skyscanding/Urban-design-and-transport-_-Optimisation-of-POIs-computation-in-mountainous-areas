@@ -157,7 +157,7 @@ def run(config):
 
     for p in p_values:
         if p > len(candidate_nodes):
-            print(f"    p={p} > candidates={len(candidate_nodes)}  -  skipping")
+            print(f"    p={p} > candidates={len(candidate_nodes)}: skipping")
             continue
         print(f"\n  --- p={p} ---")
 

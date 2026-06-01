@@ -1,6 +1,6 @@
-# Mountainous Terrain Optimisation  -  3D Terrain-Aware Location-Allocation for Last-Mile Logistics
+# Mountainous Terrain Optimisation: 3D Terrain-Aware Location-Allocation for Last-Mile Logistics
 
-Python pipeline that integrates **Tobler's hiking function** for 3D terrain impedance into **P-median location-allocation** optimisation  -  enabling terrain-aware facility planning in hillside urban environments. Includes extensions for drone landing pad MCLP and capsule pipeline routing.
+Python pipeline that integrates **Tobler's hiking function** for 3D terrain impedance into **P-median location-allocation** optimisation: enabling terrain-aware facility planning in hillside urban environments. Includes extensions for drone landing pad MCLP and capsule pipeline routing.
 
 No GUI. Entirely command-line driven. Validated against the Sai Ying Pun (Hong Kong) case study.
 
@@ -42,7 +42,7 @@ No GUI. Entirely command-line driven. Validated against the Sai Ying Pun (Hong K
         Extensions: Drone MCLP + Capsule Pipeline
 ```
 
-**Why Tobler's function?** In hillside cities, walking effort depends on slope  -  a 200m walk uphill takes significantly longer than 200m on flat ground. Standard 2D planning models ignore this, placing facilities at locations that appear optimal on a map but are inaccessible in reality. Tobler's empirically-calibrated hiking function captures this asymmetry: downhill walking is faster than uphill, and steep gradients degrade speed exponentially.
+**Why Tobler's function?** In hillside cities, walking effort depends on slope: a 200m walk uphill takes significantly longer than 200m on flat ground. Standard 2D planning models ignore this, placing facilities at locations that appear optimal on a map but are inaccessible in reality. Tobler's empirically-calibrated hiking function captures this asymmetry: downhill walking is faster than uphill, and steep gradients degrade speed exponentially.
 
 ### The P-Median Model
 
@@ -91,11 +91,11 @@ python -c "import geopandas, networkx, rasterio, scipy, pulp, matplotlib; print(
 
 | Layer | Geometry | Required Fields | Notes |
 |-------|----------|-----------------|-------|
-| **Study area** | Polygon |  -  | EPSG:2326 metric CRS recommended |
+| **Study area** | Polygon | N/A | EPSG:2326 metric CRS recommended |
 | **POI data** | Point | `name`, `midType` (or equivalent) | Amap or OSM format |
 | **Vehicle roads** | Line | `Shape_Leng` (length), `fclass` (road class) | Clipped to study area buffer |
-| **Footway lines** | Line |  -  | OSM highway=footway/path |
-| **Steps lines** | Line |  -  | OSM highway=steps |
+| **Footway lines** | Line | N/A | OSM highway=footway/path |
+| **Steps lines** | Line | N/A | OSM highway=steps |
 | **DEM** | Raster (GeoTIFF) | Elevation in metres | ~19m resolution typical |
 | **Population** | Polygon | Density field (e.g., `Averag_pop`) | Census SSBG/street-block level |
 | **Buildings** | Polygon | `Elevation` (rooftop elevation) | Required for Drone MCLP (Step 6) |
@@ -258,7 +258,7 @@ mountainous-optimisation/
 │   └── step08-comparison.png
 └── scripts/
     ├── _utils.py                      ← Shared: DEM, Tobler, graphs, cost matrices, optimal-p
-    ├── master_pipeline.py             ← Orchestrator  -  run this
+    ├── master_pipeline.py             ← Orchestrator: run this
     ├── step01_filter_classify_pois.py
     ├── step02_merge_network.py
     ├── step03_dem_overlay_tobler.py
@@ -273,7 +273,7 @@ mountainous-optimisation/
 
 # Worked Example: Sai Ying Pun, Hong Kong
 
-This section walks through the full pipeline using real data from **Sai Ying Pun (SYP)**  -  a 2.64 km² mixed residential/commercial district on Hong Kong Island's northern shore, rising from sea level to ~250m elevation within a short horizontal distance.
+This section walks through the full pipeline using real data from **Sai Ying Pun (SYP)**: a 2.64 km² mixed residential/commercial district on Hong Kong Island's northern shore, rising from sea level to ~250m elevation within a short horizontal distance.
 
 ## Case Study Summary
 
@@ -291,7 +291,7 @@ This section walks through the full pipeline using real data from **Sai Ying Pun
 
 ### Key Findings
 
-1. **Current stations are severely suboptimal.** All 7 existing last-mile stations cluster along the waterfront (elevation 0–10m). The P-median optimum at p=10 retains 0 of them  -  they are at the edge of the study area, far from the population-weighted centre of demand.
+1. **Current stations are severely suboptimal.** All 7 existing last-mile stations cluster along the waterfront (elevation 0–10m). The P-median optimum at p=10 retains 0 of them: they are at the edge of the study area, far from the population-weighted centre of demand.
 
 2. **Terrain adds ~42% walking time on average.** The mean 3D/2D time ratio across walkable segments is 1.416. 397 segments exceed a 2× ratio, and 235 exceed 3×. The penalty is spatially concentrated on the southern hillside.
 
@@ -311,17 +311,17 @@ Separates consumer-facing last-mile logistics stations from B2B freight forwardi
 
 ### Why This Matters
 
-Sai Ying Pun's Sheung Wan district is historically Hong Kong's shipping trade hub. Of 108 POIs matching logistics keywords, the vast majority were B2B freight forwarding offices  -  not locations where residents pick up parcels. A simple "物流" keyword search is useless for last-mile planning.
+Sai Ying Pun's Sheung Wan district is historically Hong Kong's shipping trade hub. Of 108 POIs matching logistics keywords, the vast majority were B2B freight forwarding offices: not locations where residents pick up parcels. A simple "物流" keyword search is useless for last-mile planning.
 
 ### Classification Logic (5-Step Decision Tree)
 
 The function `classify_strict()` checks `name + type + address` against keyword lists in priority order:
 
-1. **CHECK 1  -  Known courier brand storefronts** (highest priority): 顺丰速运, SF Express, FedEx, DHL, 菜鸟驿站, Alfred, eLink, 4PX, etc. → `lastmile`. Runs BEFORE the B2B check.
-2. **CHECK 2  -  Post office patterns**: 邮政局, 郵政局, 邮局, Post Office → `lastmile`.
-3. **CHECK 3  -  Parcel locker / self-pickup**: 快递柜, 智能柜, 自提点, 驿站, e栈 → `lastmile`.
-4. **CHECK 4  -  B2B indicators**: 有限公司, Ltd, shipping, freight, 货运, 航运, 贸易, warehouse → `b2b`.
-5. **CHECK 5  -  Category fallback**: If `midType` contains "物流速递" → `b2b`; if "邮局" → `lastmile`; otherwise → `uncertain`.
+1. **CHECK 1: Known courier brand storefronts** (highest priority): 顺丰速运, SF Express, FedEx, DHL, 菜鸟驿站, Alfred, eLink, 4PX, etc. → `lastmile`. Runs BEFORE the B2B check.
+2. **CHECK 2: Post office patterns**: 邮政局, 郵政局, 邮局, Post Office → `lastmile`.
+3. **CHECK 3: Parcel locker / self-pickup**: 快递柜, 智能柜, 自提点, 驿站, e栈 → `lastmile`.
+4. **CHECK 4: B2B indicators**: 有限公司, Ltd, shipping, freight, 货运, 航运, 贸易, warehouse → `b2b`.
+5. **CHECK 5: Category fallback**: If `midType` contains "物流速递" → `b2b`; if "邮局" → `lastmile`; otherwise → `uncertain`.
 
 ### Result
 
@@ -345,7 +345,7 @@ Last-mile: 3× SF Express, 2× Post Office, 1× FedEx, 1× Shun Fung Express
 ### Pitfalls
 
 - **All POIs classified as "uncertain"**: Set `field_mapping.poi_name` / `field_mapping.poi_type` if your data uses different field names.
-- **Known brands misclassified as B2B**: The brand check (CHECK 1) has priority  -  add unfamiliar regional brands to `courier_brands`.
+- **Known brands misclassified as B2B**: The brand check (CHECK 1) has priority: add unfamiliar regional brands to `courier_brands`.
 
 ---
 
@@ -357,7 +357,7 @@ Merges three road network sources (vehicle roads, OSM footways, OSM steps) into 
 
 ### Why Three Sources?
 
-The initial All_roadsr.gpkg contained 1,396 vehicle road segments with no footpaths or steps. After merging: 3,630 segments (1,396 roads + 1,801 footways + 433 steps). Footways and steps account for **61.5%** of the network by segment count  -  ignoring them would miss the primary walking infrastructure on the hillside.
+The initial All_roadsr.gpkg contained 1,396 vehicle road segments with no footpaths or steps. After merging: 3,630 segments (1,396 roads + 1,801 footways + 433 steps). Footways and steps account for **61.5%** of the network by segment count: ignoring them would miss the primary walking infrastructure on the hillside.
 
 ### Speed Assignment
 
@@ -399,7 +399,7 @@ Where W is walking speed (km/h) and S is the slope tangent (rise/run):
 
 - **Maximum speed**: ~6.0 km/h at S = −0.05 (gentle ~2.86° downhill)
 - **Flat speed**: ~5.04 km/h at S = 0
-- **Uphill (15°)**: S = tan(15°) ≈ 0.268 → W ≈ 1.5 km/h  -  rapidly degraded
+- **Uphill (15°)**: S = tan(15°) ≈ 0.268 → W ≈ 1.5 km/h: rapidly degraded
 - **Asymmetry**: Downhill is consistently faster than the same-grade uphill
 
 ### Additional Penalties
@@ -411,7 +411,7 @@ Where W is walking speed (km/h) and S is the slope tangent (rise/run):
 
 ### Directional Computation
 
-For each segment, two travel times are computed  -  digitised direction A→B and reverse B→A. The graph edge weight uses the **round-trip average**: `(AB + BA) / 2`.
+For each segment, two travel times are computed: digitised direction A→B and reverse B→A. The graph edge weight uses the **round-trip average**: `(AB + BA) / 2`.
 
 ### Statistics (Sai Ying Pun)
 
@@ -446,7 +446,7 @@ Builds dual NetworkX graphs (2D flat, 3D Tobler), computes shortest-path cost ma
 
 ### Graph Construction
 
-1. **Node deduplication**: Segment endpoints within 5m snap tolerance are merged  -  this connects footway/steps subnetworks to the vehicle road network.
+1. **Node deduplication**: Segment endpoints within 5m snap tolerance are merged: this connects footway/steps subnetworks to the vehicle road network.
 2. **Largest connected component**: Only the core component is retained (1,109 nodes / 1,284 edges, ~31% of all nodes).
 3. **Edge weights**: G_2D uses `cost_seconds_2d`; G_3D uses `(c3d_AB + c3d_BA) / 2`.
 
@@ -461,11 +461,11 @@ Builds dual NetworkX graphs (2D flat, 3D Tobler), computes shortest-path cost ma
 
 ### Cross-Evaluation
 
-Beyond solving both scenarios independently, the code evaluates the **2D-optimal solution on the 3D cost surface**  -  measuring how much worse a terrain-ignorant plan performs in reality.
+Beyond solving both scenarios independently, the code evaluates the **2D-optimal solution on the 3D cost surface**: measuring how much worse a terrain-ignorant plan performs in reality.
 
 ![P-Median Comparison](images/step04-pmedian-comparison.png)
 
-*Three-panel area-fill map: (A) Current stations  -  7 waterfront locations, (B) 2D-optimised p=10  -  stations shift inland, (C) 3D-optimised p=10  -  stations adjust farther uphill accounting for Tobler slope asymmetry.*
+*Three-panel area-fill map: (A) Current stations: 7 waterfront locations, (B) 2D-optimised p=10: stations shift inland, (C) 3D-optimised p=10: stations adjust farther uphill accounting for Tobler slope asymmetry.*
 
 ### Key Parameters
 
@@ -511,7 +511,7 @@ Terrain raises the baseline coefficient a by 7.3% but preserves the decay expone
 | Maximum Curvature | max κ = |y''|/(1+y'²)^(3/2) | p = 9 |
 | Marginal Analysis | First p where dT/dp < 0.1 min | p = 10 |
 | L-Method | Best two-segment linear fit by min SSE | p = 9 |
-| **Consensus (median)** |  -  | **p = 10** |
+| **Consensus (median)** | N/A | **p = 10** |
 
 ![Diminishing Returns](images/step05-diminishing-returns.png)
 
@@ -571,7 +571,7 @@ Routes an underground capsule cargo pipeline through the existing OSM road graph
 
 1. **SPT (Shortest Path Tree)**: Union of individually shortest paths from the distribution hub to each terminal station. Simple but may duplicate segments.
 
-2. **Steiner Tree**: Minimum-weight subtree connecting hub + all terminals  -  may introduce intermediate "Steiner nodes" at road junctions to reduce total length. Computed via `networkx.algorithms.approximation.steiner_tree`.
+2. **Steiner Tree**: Minimum-weight subtree connecting hub + all terminals: may introduce intermediate "Steiner nodes" at road junctions to reduce total length. Computed via `networkx.algorithms.approximation.steiner_tree`.
 
 ### Coverage Analysis
 

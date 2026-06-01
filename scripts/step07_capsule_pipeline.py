@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step 07: Capsule Cargo Pipeline Routing  -  SPT vs Steiner Tree
+Step 07: Capsule Cargo Pipeline Routing: SPT vs Steiner Tree
 ================================================================
 Uses P-median optimised terminal locations to design a capsule cargo
 pipeline network through the OSM road graph. Two routing methods are
@@ -149,7 +149,7 @@ def run(config):
         d_t, i_t = tree.query([tx, ty])
         nid = main_ids[i_t]
         if nid not in main_comp:
-            print(f"    T: ({tx:.0f},{ty:.0f})  -  not in main component!")
+            print(f"    T: ({tx:.0f},{ty:.0f}): not in main component!")
             continue
         if nid != hub_node and nid not in term_nodes:
             term_nodes.append(nid)

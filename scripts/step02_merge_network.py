@@ -3,7 +3,7 @@
 Step 02: Merge Vehicle Roads + Footways + Steps into Unified Pedestrian Network
 ================================================================================
 Merges three road network sources into a single GeoDataFrame with harmonised schema:
-  1. Vehicle roads (All_roadsr.gpkg)  -  standard pedestrian walkways on roads
+  1. Vehicle roads (All_roadsr.gpkg): standard pedestrian walkways on roads
   2. Footway lines (OSM highway=footway/path)
   3. Steps lines (OSM highway=steps)
 

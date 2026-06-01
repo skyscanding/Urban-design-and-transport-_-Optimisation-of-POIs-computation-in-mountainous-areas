@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-master_pipeline.py  -  Orchestrator for the Mountainous Terrain Optimisation Pipeline.
+master_pipeline.py: Orchestrator for the Mountainous Terrain Optimisation Pipeline.
 
 Usage:
     python master_pipeline.py config.json
@@ -8,14 +8,14 @@ Usage:
     python master_pipeline.py config.json --steps pmedian,drone,capsule
 
 Steps:
-    filter     -  Step 01: Filter and classify logistics POIs
-    merge      -  Step 02: Merge vehicle roads + footways + steps
-    tobler     -  Step 03: DEM overlay + Tobler's terrain impedance
-    pmedian    -  Step 04: P-median location-allocation (2D vs 3D)
-    diminish   -  Step 05: Diminishing returns analysis (p=3-20)
-    drone      -  Step 06: Drone landing pad MCLP optimisation
-    capsule    -  Step 07: Capsule pipeline routing (SPT vs Steiner)
-    figures    -  Step 08: Publication-quality figures
+    filter   : Step 01: Filter and classify logistics POIs
+    merge    : Step 02: Merge vehicle roads + footways + steps
+    tobler   : Step 03: DEM overlay + Tobler's terrain impedance
+    pmedian  : Step 04: P-median location-allocation (2D vs 3D)
+    diminish : Step 05: Diminishing returns analysis (p=3-20)
+    drone    : Step 06: Drone landing pad MCLP optimisation
+    capsule  : Step 07: Capsule pipeline routing (SPT vs Steiner)
+    figures  : Step 08: Publication-quality figures
 """
 
 import json
@@ -61,7 +61,7 @@ def run_step(step_key, config):
         if hasattr(mod, "run"):
             return mod.run(config)
         else:
-            print(f"  [WARN] {module_name}.py has no run(config) function  -  skipping")
+            print(f"  [WARN] {module_name}.py has no run(config) function: skipping")
             return True
     except ImportError as e:
         print(f"  [ERROR] Cannot import {module_name}: {e}")

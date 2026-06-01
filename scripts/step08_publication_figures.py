@@ -5,12 +5,12 @@ Step 08: Publication-Quality Figures
 Generates publication-quality figures from the pipeline outputs.
 
 Figure Suite:
-  1. Diminishing Returns  -  4-panel: travel time, coverage, marginal benefit, terrain penalty
-  2. P-Median Comparison  -  4-panel area-fill: current, 2D, 3D, improvement map
-  3. Station Comparison  -  3-panel: current vs 2D vs 3D at optimal p
-  4. Cost of Ignoring Terrain  -  3-line cross-evaluation chart
-  5. Three-Option Comparison  -  radar/bar chart: P-median vs Capsule vs Drone
-  6. Terrain Analysis  -  slope histogram, 3D/2D ratio by network type
+  1. Diminishing Returns: 4-panel: travel time, coverage, marginal benefit, terrain penalty
+  2. P-Median Comparison: 4-panel area-fill: current, 2D, 3D, improvement map
+  3. Station Comparison: 3-panel: current vs 2D vs 3D at optimal p
+  4. Cost of Ignoring Terrain: 3-line cross-evaluation chart
+  5. Three-Option Comparison: radar/bar chart: P-median vs Capsule vs Drone
+  6. Terrain Analysis: slope histogram, 3D/2D ratio by network type
 
 All figures at 300dpi PNG, publication-ready formatting.
 
